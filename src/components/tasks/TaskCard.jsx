@@ -1,25 +1,40 @@
 import { ArrowRightIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { useDispatch } from 'react-redux';
+import { removeTask, updateStatus } from '../../redux/feature/taskSlice';
 
-const TaskCard = () => {
-  const task = {
-    id: 1,
-    status: 'pending',
-    title: 'Remove Button',
-    description:
-      'We need a remove button in our task card. Meke the button red and use Heroicon for tashbin icon.',
-    date: '2023-08-28',
-    assignedTo: 'Mir Hussain',
-    priority: 'high',
-  };
+const TaskCard = ({ task }) => {
+  // const task = {
+  //   id: 1,
+  //   status: 'pending',
+  //   title: 'Remove Button',
+  //   description:
+  //     'We need a remove button in our task card. Meke the button red and use Heroicon for tashbin icon.',
+  //   date: '2023-08-28',
+  //   assignedTo: 'Mir Hussain',
+  //   priority: 'high',
+  // };
+
+  const dispatch = useDispatch()
+
+  let statusValue;
+
+  if (task.status === 'pending') {
+
+    statusValue = 'running'
+  } else if (task.status === 'running') {
+
+    statusValue = 'done'
+  } else {
+
+    statusValue = 'archive'
+  }
 
   return (
     <div className="bg-secondary/10 rounded-md p-5">
       <h1
-        className={`text-lg font-semibold mb-3  ${
-          task.priority === 'high' ? 'text-red-500' : ''
-        } ${task.priority === 'medium' ? 'text-yellow-500' : ''} ${
-          task.priority === 'low' ? 'text-green-500' : ''
-        }`}
+        className={`text-lg font-semibold mb-3  ${task.priority === 'high' ? 'text-red-500' : ''
+          } ${task.priority === 'medium' ? 'text-yellow-500' : ''} ${task.priority === 'low' ? 'text-green-500' : ''
+          }`}
       >
         {task?.title}
       </h1>
@@ -33,7 +48,7 @@ const TaskCard = () => {
           </button>
           <button
             onClick={() =>
-              dispatch(updateStatus({ id: task.id, status: updatedStatus }))
+              dispatch(updateStatus({ id: task.id, status: statusValue }))
             }
             title="In progress"
           >

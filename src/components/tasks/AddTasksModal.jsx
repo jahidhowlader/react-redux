@@ -22,11 +22,11 @@ const AddTasksModal = ({ isOpen, setIsOpen }) => {
     }
 
     return (
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Add Task for Developers">
             <form onSubmit={handleSubmit(onSubmit)} className='mt-3'>
                 <div className='flex flex-col mb-3'>
                     <label htmlFor="title">Title</label>
-                    <input type="text" {...register('name')} className='rounded' />
+                    <input type="text" {...register('title')} className='rounded' />
                 </div>
 
                 {/* Description */}
@@ -43,7 +43,7 @@ const AddTasksModal = ({ isOpen, setIsOpen }) => {
 
                 {/* Assign */}
                 <div className='flex flex-col mb-3'>
-                    <label htmlFor="assign">Assign to</label>
+                    <label htmlFor="assignedTo">Assign to</label>
                     <select className='rounded' {...register('assignedTo')}>
                         <option value="Jahid Howlader">Jahid Howlader</option>
                         <option value="Moly Zaman">Moly Zaman</option>
