@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import auth from '../../../utils/firebase.config';
 
 const initialState = {
@@ -23,6 +23,19 @@ export const createUser = createAsyncThunk("userSlice/createUser", async ({ emai
   }
 })
 
+export const loginUser = createAsyncThunk(
+  'userSlice/loginUser',
+  async ({ email, password }) => {
+
+    const data = await signInWithEmailAndPassword(auth, email, password)
+
+    console.log(46, data.user);
+    return {
+      email: data.user.email
+    }
+  }
+)
+
 const userSlice = createSlice({
   name: 'userSlice/createUser',
   initialState,
@@ -44,6 +57,7 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
 
+    // SIGNUP USECASE
     builder.addCase(createUser.pending, (state) => {
       state.isLoading = true
       state.isError = false
@@ -63,6 +77,27 @@ const userSlice = createSlice({
         state.isError = true
         state.email = ''
         state.password = ''
+        state.error = action.error.message
+      })
+
+    // SIGNIN USECASE
+    builder.addCase(loginUser.pending, (state) => {
+      state.isLoading = true
+      state.isError = false
+      state.email = ''
+      state.error = ''
+    })
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        state.isError = false
+        state.email = payload.email
+        state.name = state.name
+        state.error = ''
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.email = ''
         state.error = action.error.message
       })
   }

@@ -1,14 +1,32 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import loginImage from '../assets/image/login.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../redux/features/user/userSlice';
+import { useEffect } from 'react';
+
 const Login = () => {
+
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = ({ email, password }) => {
-    // Email Password Login
+  const { isLoading, email } = useSelector((state) => state.userSlice)
+  const dispatch = useDispatch()
 
-    console.log(email, password);
+  // console.log(11, isLoading);
+  // console.log(111, email);
+
+  useEffect(() => {
+
+    if (!isLoading && email) {
+      return navigate('/')
+    }
+  }, [isLoading, email])
+
+  const onSubmit = ({ email, password }) => {
+
+    // Email Password Login
+    dispatch(loginUser({ email, password }))
   };
 
   const handleGoogleLogin = () => {

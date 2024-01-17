@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
 import Modal from '../ui/Modal';
 import { useDispatch } from 'react-redux';
-import { addTask } from '../../redux/features/tasks/tasksSlice';
+import { useAddTaskMutation } from '../../redux/features/api/baseApi';
 
 const AddTaskModal = ({ isOpen, setIsOpen }) => {
   const { register, handleSubmit, reset } = useForm();
-  const dispatch = useDispatch();
+
+  const [addTask, { data: newData }] = useAddTaskMutation()
 
   const onCancel = () => {
     reset();
@@ -13,7 +14,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
   };
 
   const onSubmit = (data) => {
-    dispatch(addTask(data));
+    addTask({ ...data, status: "pending" });
     onCancel();
   };
 
@@ -62,6 +63,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
             id="assignedTo"
             {...register('assignedTo')}
           >
+            <option value="Jahid howlader">Jahid Howlader</option>
             <option value="Mir Hussain">Mir Hussain</option>
             <option value="Mezba Abedin">Mezba Abedin</option>
             <option value="Nahid Hasan">Nahid Hasan</option>
