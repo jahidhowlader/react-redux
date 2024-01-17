@@ -4,12 +4,13 @@ import {
   removeTask,
   updateStatus,
 } from '../../redux/features/tasks/tasksSlice';
-import { useRemoveTaskMutation } from '../../redux/features/api/baseApi';
+import { useRemoveTaskMutation } from '../../redux/features/tasks/taskApi';
+// import { useRemoveTaskMutation } from '../../redux/features/tasks/taskApi';
 
 const TaskCard = ({ task }) => {
   const dispatch = useDispatch();
 
-  const [removeTask, {}] = useRemoveTaskMutation()
+  const [removeTask, { }] = useRemoveTaskMutation()
 
   let updatedStatus;
 
